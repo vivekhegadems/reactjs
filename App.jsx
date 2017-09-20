@@ -1,4 +1,6 @@
 import React from 'react';
+import TextField from 'material-ui/TextField';
+
 
 class App extends React.Component {
 	constructor(){
@@ -22,7 +24,9 @@ class App extends React.Component {
 		}
 		return (
 			<div>
-				<input type="text"
+				<h1>List Of the Names of the People</h1>
+				
+				<input type="text" 
 				onChange={this.filter.bind(this)}/>
 				{items.map(item => 
 					<Person key={item.name} person={item} />)}
@@ -31,7 +35,12 @@ class App extends React.Component {
     }
 }
 
-
 const Person = (props) => <h4>{props.person.name}</h4>
+
+const TextFieldNew => (
+	<div>
+		<TextField hintText="Hint Text" /><br/>
+	</div>
+);
 
 export default App;
