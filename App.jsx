@@ -1,24 +1,36 @@
 import React from 'react';
-import TextField from 'material-ui/TextField';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import PropTypes from 'prop-types';
-
-
-
 import {List, ListItem} from 'material-ui/List';
-import ContentInbox from 'material-ui/svg-icons/content/inbox';
-import ActionGrade from 'material-ui/svg-icons/action/grade';
-import ContentSend from 'material-ui/svg-icons/content/send';
-import ContentDrafts from 'material-ui/svg-icons/content/drafts';
-import Divider from 'material-ui/Divider';
+
 import ActionInfo from 'material-ui/svg-icons/action/info';
 
 import {Tabs, Tab} from 'material-ui/Tabs';
 
+import SwipeableViews from 'react-swipeable-views';
+
 class App extends React.Component {
-   render() {
-		
+
+	render() {
+
+        const styles = {
+            slide: {
+                padding: 15,
+                minHeight: 100,
+                color: '#fff',
+            },
+            slide1: {
+                background: '#FEA900',
+            },
+            slide2: {
+                background: '#B3DC4A',
+            },
+			slide3: {
+            	background: '#6AC0FF',
+			},
+        };
+
 		return (
 		 <MuiThemeProvider>
 			<div>
@@ -44,14 +56,26 @@ class App extends React.Component {
 				</div>
 				</Tab>
 				<Tab label="Second Tab" >
-					<p> This is the second tab</p>
+					<h4> This is the second tab for swipeable views</h4>
+					<SwipeableViews>
+						<div style={Object.assign({}, styles.slide, styles.slide1)}>
+							Slide n01
+						</div>
+						<div style={Object.assign({}, styles.slide, styles.slide2)}>
+							Slide n02
+						</div>
+						<div style={Object.assign({}, styles.slide, styles.slide3)}>
+							Slide n03
+						</div>
+					</SwipeableViews>
+					
 				</Tab>
 			</Tabs>
 			</div>	
-		 </MuiThemeProvider> 
-		
+		 </MuiThemeProvider>
 		);
     }
+
 }
 
 export default App;
