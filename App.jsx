@@ -44,6 +44,7 @@ class App extends React.Component {
 				</div>
 				</Tab>
 				<Tab label="Second Tab" >
+					<p> This is the second tab</p>
 				</Tab>
 			</Tabs>
 			</div>	
