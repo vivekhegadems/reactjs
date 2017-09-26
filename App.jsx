@@ -1,5 +1,6 @@
 import React from 'react';
 
+import TextField from 'material-ui/TextField';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import {List, ListItem} from 'material-ui/List';
@@ -10,9 +11,36 @@ import {Tabs, Tab} from 'material-ui/Tabs';
 
 import SwipeableViews from 'react-swipeable-views';
 
+import RefreshIndicator from 'material-ui/RefreshIndicator';
+
 class App extends React.Component {
 
+	constructor(){
+		super();
+		this.state = {items: []}
+	}
+	componentWillMount(){
+		fetch( 'http://swapi.co/api/planets/1/' )
+			.then( response => response.json())
+			.then( ({results: items}) => this.setState({items}))
+	}
+	filter(e){
+		this.setState({filter: e.target.value})
+	}
+
+
 	render() {
+
+		const style = {
+			container: {
+				position: 'relative',
+			},
+			refresh: {
+				display: 'inline-block',
+				position: 'relative',
+			},
+		};
+
 
         const styles = {
             slide: {
@@ -31,6 +59,12 @@ class App extends React.Component {
 			},
         };
 
+		let items = this.state.items;
+		if(this.state.filter){
+			items = items.filter( item =>
+				item.name.toLowerCase()
+					.includes(this.state.filter.toLowerCase()))
+		}
 		return (
 		 <MuiThemeProvider>
 			<div>
@@ -39,6 +73,10 @@ class App extends React.Component {
 				<Tabs>
 				<Tab label="First Task" >
 				<div>
+					<TextField hintText="Hint Text"
+							   onChange={this.filter.bind(this)}/><br/>
+					{items.map(item =>
+						<Person key={item.name} person={{item}}/> )}
 				<List>
 					<ListItem primaryText="Luke Skywalker" rightIcon={<ActionInfo />} />
 					<ListItem primaryText="C-3PO" rightIcon={<ActionInfo />} />
@@ -68,7 +106,18 @@ class App extends React.Component {
 							Slide n03
 						</div>
 					</SwipeableViews>
-					
+
+					<div style={style.container}>
+						<RefreshIndicator
+							size={100}
+							left={10}
+							top={0}
+							status={"loading"}
+							style={style.refresh}
+						/>
+					</div>
+
+
 				</Tab>
 			</Tabs>
 			</div>	
@@ -77,5 +126,7 @@ class App extends React.Component {
     }
 
 }
+
+const Person = (props) => <h4>{props.person.name}</h4>
 
 export default App;
