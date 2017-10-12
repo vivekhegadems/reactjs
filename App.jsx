@@ -10,7 +10,7 @@ import {Tabs, Tab} from 'material-ui/Tabs';
 
 import SwipeableViews from 'react-swipeable-views';
 
-var jsonData = require('json!../data/newlist.json');
+var jsonData = require('./data/newlist.json');
 
 class App extends React.Component {
 
@@ -39,13 +39,18 @@ class App extends React.Component {
 
             var jsonObj = new XMLHttpRequest();
             jsonObj.overrideMimeType("application/json");
-            jsonObj.open('GET', "../data/newlist.json", true);
             jsonObj.onreadystatechange = function () {
                 if (jsonObj.readyState == 4 && jsonObj.status == "200") {
                     callback(jsonObj.responseText);
+                    var obj = JSON.parse(this.responseText);
+                    for (var i=0;i<obj.length;i++)
+                    {
+                        document.getElementById("jsonid").innerHTML = obj[i].items.title;
+                    }
                 }
             };
-            jsonObj.send(null);
+            jsonObj.open("GET", "./data/newlist.json", true);
+            jsonObj.send();
         }
 
         function load() {
@@ -58,52 +63,39 @@ class App extends React.Component {
 
         load();
 
-
-
-
         return (
-			<MuiThemeProvider>
-				<div>
-					<h1>List Of the Names of the People</h1>
+            <MuiThemeProvider>
+                <div>
+                    <h1>List Of the Names of the People</h1>
 
-					<Tabs>
-						<Tab label="First Task" >
-							<div>
-								<List>
+                    <Tabs>
+                        <Tab label="First Tab" >
+                            <div>
+                                <List>
 
-									<ListItem primaryText="Luke Skywalker" rightIcon={<ActionInfo />} />
-									<ListItem primaryText="C-3PO" rightIcon={<ActionInfo />} />
-									<ListItem primaryText="R2-D2" rightIcon={<ActionInfo />} />
-									<ListItem primaryText="Darth Vader" rightIcon={<ActionInfo />} />
 
-									<ListItem primaryText="Leia Organa" rightIcon={<ActionInfo />} />
-									<ListItem primaryText="Owen Lars" rightIcon={<ActionInfo />} />
-									<ListItem primaryText="Beru Whitesun lars" rightIcon={<ActionInfo />} />
-									<ListItem primaryText="R5-D4" rightIcon={<ActionInfo />} />
+                                    <ListItem id="jsonid" primaryText="JSON data" rightIcon={<ActionInfo />} />
+                                </List>
+                            </div>
+                        </Tab>
+                        <Tab label="Second Tab" >
+                            <h4> This is the second tab for swipeable views</h4>
+                            <SwipeableViews>
+                                <div style={Object.assign({}, styles.slide, styles.slide1)}>
+                                    Slide n01
+                                </div>
+                                <div style={Object.assign({}, styles.slide, styles.slide2)}>
+                                    Slide n02
+                                </div>
+                                <div style={Object.assign({}, styles.slide, styles.slide3)}>
+                                    Slide n03
+                                </div>
+                            </SwipeableViews>
 
-									<ListItem primaryText="Biggs Darklighter" rightIcon={<ActionInfo />} />
-									<ListItem primaryText="Obi-Wan Kenobi" rightIcon={<ActionInfo />} />
-								</List>
-							</div>
-						</Tab>
-						<Tab label="Second Tab" >
-							<h4> This is the second tab for swipeable views</h4>
-							<SwipeableViews>
-								<div style={Object.assign({}, styles.slide, styles.slide1)}>
-									Slide n01
-								</div>
-								<div style={Object.assign({}, styles.slide, styles.slide2)}>
-									Slide n02
-								</div>
-								<div style={Object.assign({}, styles.slide, styles.slide3)}>
-									Slide n03
-								</div>
-							</SwipeableViews>
-
-						</Tab>
-					</Tabs>
-				</div>
-			</MuiThemeProvider>
+                        </Tab>
+                    </Tabs>
+                </div>
+            </MuiThemeProvider>
         );
     }
 
