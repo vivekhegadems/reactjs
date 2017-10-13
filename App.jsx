@@ -1,13 +1,7 @@
 import React from 'react';
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
 import {List, ListItem} from 'material-ui/List';
-
-import ActionInfo from 'material-ui/svg-icons/action/info';
-
 import {Tabs, Tab} from 'material-ui/Tabs';
-
 import SwipeableViews from 'react-swipeable-views';
 
 var jsonData = require('./data/newlist.json');
@@ -15,6 +9,10 @@ var jsonData = require('./data/newlist.json');
 class App extends React.Component {
 
     render() {
+
+        const imagestyles = {
+            padding: '10px',
+        }
 
         const fontstyles = {
             fontWeight:'bold',
@@ -48,18 +46,25 @@ class App extends React.Component {
             jsonObj.onreadystatechange = function () {
                     callback(jsonObj.responseText);
                     var obj = JSON.parse(this.responseText)
-                    //for (var i=0;i<obj.items.length;i++)
-                    //{
-                        console.log("test" + obj.items[0].fields.title+obj.items[0].fields.body);
-                        document.getElementById("jsonid1").innerHTML = obj.items[0].fields.title;
-                        document.getElementById("jsonid2").innerHTML = obj.items[0].fields.body;
+                    for (var i=0;i<obj.items.length;i++)
+                    {
+                        console.log("test" + obj.items[i].fields.title+obj.items[i].fields.body+obj.items[i].fields.featuredImage.fields.title);
+                        document.getElementById("jsonid1").innerHTML = obj.items[i].fields.title;
 
-                        document.getElementById("jsonid3").innerHTML = obj.items[2].fields.title;
+                        document.getElementById("jsonidimg1title").innerHTML = obj.items[i].fields.featuredImage.fields.title;
+                        var img = new Image();
+                        img.src = obj.items[i].fields.featuredImage.fields.file.url;
+                        img.setAttribute("class", "bannisoppu");
+                        document.getElementById("jsonidimg1").appendChild(img);
+
+                        document.getElementById("jsonid2").innerHTML = obj.items[i].fields.body;
+
+                        /*document.getElementById("jsonid3").innerHTML = obj.items[2].fields.title;
                         document.getElementById("jsonid4").innerHTML = obj.items[2].fields.body;
 
                         document.getElementById("jsonid5").innerHTML = obj.items[3].fields.title;
-                        document.getElementById("jsonid6").innerHTML = obj.items[3].fields.body;
-                    //}
+                        document.getElementById("jsonid6").innerHTML = obj.items[3].fields.body;*/
+                    }
 
             };
             jsonObj.open("GET", "./data/newlist.json", true);
@@ -87,6 +92,8 @@ class App extends React.Component {
                                 <List id="jsonid">
 
                                     <ListItem id="jsonid1" style={fontstyles} />
+                                    <ListItem id="jsonidimg1title" />
+                                    <ListItem class="bannisoppu" id="jsonidimg1" style={imagestyles}/>
                                     <ListItem id="jsonid2" />
 
                                     <ListItem id="jsonid3" style={fontstyles} />
