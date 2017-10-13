@@ -37,50 +37,6 @@ class App extends React.Component {
             },
         };
 
-        var data;
-
-        function loadJSON(jsonfile, callback) {
-
-            var jsonObj = new XMLHttpRequest();
-            jsonObj.overrideMimeType("application/json");
-            jsonObj.onreadystatechange = function () {
-                    callback(jsonObj.responseText);
-                    var obj = JSON.parse(this.responseText)
-                    for (var i=0;i<obj.items.length;i++)
-                    {
-                        console.log("test" + obj.items[i].fields.title+obj.items[i].fields.body+obj.items[i].fields.featuredImage.fields.title);
-                        document.getElementById("jsonid1").innerHTML = obj.items[i].fields.title;
-
-                        document.getElementById("jsonidimg1title").innerHTML = obj.items[i].fields.featuredImage.fields.title;
-                        var img = new Image();
-                        img.src = obj.items[i].fields.featuredImage.fields.file.url;
-                        img.setAttribute("class", "bannisoppu");
-                        document.getElementById("jsonidimg1").appendChild(img);
-
-                        document.getElementById("jsonid2").innerHTML = obj.items[i].fields.body;
-
-                        /*document.getElementById("jsonid3").innerHTML = obj.items[2].fields.title;
-                        document.getElementById("jsonid4").innerHTML = obj.items[2].fields.body;
-
-                        document.getElementById("jsonid5").innerHTML = obj.items[3].fields.title;
-                        document.getElementById("jsonid6").innerHTML = obj.items[3].fields.body;*/
-                    }
-
-            };
-            jsonObj.open("GET", "./data/newlist.json", true);
-            jsonObj.send();
-        }
-
-        function load() {
-
-            loadJSON(jsonData, function (response) {
-                data = JSON.parse(response);
-                console.log(data);
-            });
-        }
-
-        load();
-
         return (
             <MuiThemeProvider>
                 <div>
