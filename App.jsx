@@ -16,6 +16,12 @@ class App extends React.Component {
 
     render() {
 
+        const fontstyles = {
+            fontWeight:'bold',
+            fontSize: '20px',
+            padding: '10px',
+        }
+
         const styles = {
             slide: {
                 padding: 15,
@@ -40,14 +46,21 @@ class App extends React.Component {
             var jsonObj = new XMLHttpRequest();
             jsonObj.overrideMimeType("application/json");
             jsonObj.onreadystatechange = function () {
-                if (jsonObj.readyState == 4 && jsonObj.status == "200") {
                     callback(jsonObj.responseText);
-                    var obj = JSON.parse(this.responseText);
-                    for (var i=0;i<obj.length;i++)
-                    {
-                        document.getElementById("jsonid").innerHTML = obj[i].items.title;
-                    }
-                }
+                    var obj = JSON.parse(this.responseText)
+                    //for (var i=0;i<obj.items.length;i++)
+                    //{
+                        console.log("test" + obj.items[0].fields.title+obj.items[0].fields.body);
+                        document.getElementById("jsonid1").innerHTML = obj.items[0].fields.title;
+                        document.getElementById("jsonid2").innerHTML = obj.items[0].fields.body;
+
+                        document.getElementById("jsonid3").innerHTML = obj.items[2].fields.title;
+                        document.getElementById("jsonid4").innerHTML = obj.items[2].fields.body;
+
+                        document.getElementById("jsonid5").innerHTML = obj.items[3].fields.title;
+                        document.getElementById("jsonid6").innerHTML = obj.items[3].fields.body;
+                    //}
+
             };
             jsonObj.open("GET", "./data/newlist.json", true);
             jsonObj.send();
@@ -66,19 +79,26 @@ class App extends React.Component {
         return (
             <MuiThemeProvider>
                 <div>
-                    <h1>List Of the Names of the People</h1>
+                    <h1>Madhwa Sangraha</h1>
 
                     <Tabs>
-                        <Tab label="First Tab" >
+                        <Tab label="Home" >
                             <div>
-                                <List>
+                                <List id="jsonid">
 
+                                    <ListItem id="jsonid1" style={fontstyles} />
+                                    <ListItem id="jsonid2" />
 
-                                    <ListItem id="jsonid" primaryText="JSON data" rightIcon={<ActionInfo />} />
+                                    <ListItem id="jsonid3" style={fontstyles} />
+                                    <ListItem id="jsonid4" />
+
+                                    <ListItem id="jsonid5" style={fontstyles} />
+                                    <ListItem id="jsonid6" />
+
                                 </List>
                             </div>
                         </Tab>
-                        <Tab label="Second Tab" >
+                        <Tab label="Series" >
                             <h4> This is the second tab for swipeable views</h4>
                             <SwipeableViews>
                                 <div style={Object.assign({}, styles.slide, styles.slide1)}>
